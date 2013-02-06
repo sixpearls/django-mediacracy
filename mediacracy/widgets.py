@@ -1,15 +1,26 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from django.core import urlresolvers
-from markitup.widgets import AdminMarkItUpWidget
 
-# request.build_absolute_uri(urlresolvers.reverse('filebrowser:fb_browse'))
+from django import forms
+from django.core import urlresolvers
+from django.utils.safestring import mark_safe
+from django.template.loader import render_to_string
+from markitup.widgets import AdminMarkItUpWidget, MarkItUpWidget
 
 class TextifyMarkitupAdminWidget(AdminMarkItUpWidget):
+    def render(self,*args,**kwargs):
+        attrs_copy = kwargs['attrs'].copy()
+
+        html = super(MarkItUpWidget,self).render(*args,**kwargs)
+        html += '<script type="text/javascript">'
+        html += render_to_string('mediacracy/markitup_helper.js',{ 'id': attrs_copy['id'] })
+        html += '</script>'
+
+        return mark_safe(html)
+    
     def _media(self):
-        return super(TextifyMarkitupAdminWidget,self).media + 
-          forms.Media(
-            js=("%s" % urlresolvers('load_static',args=['constant_preview_refresh.js']),
-              )
+        return super(TextifyMarkitupAdminWidget,self).media + forms.Media(
+            css={'all': ('mediacracy/markitup_helper.css',),}
             )
     media = property(_media)
+    

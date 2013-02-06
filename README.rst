@@ -14,3 +14,7 @@ to your ``INSTALLED_APPS``. Be sure to include the following settings:
     TEXTIFY_SETTINGS = {
         'WIDGET': 'mediacracy.widgets.TextifyMarkitupAdminWidget'
     }
+
+
+add ``(r'^mediacracy/', include('mediacracy.urls')),`` to your urls.
+

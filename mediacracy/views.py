@@ -15,6 +15,6 @@ from django.views.decorators.cache import never_cache, cache_page
 from django.views.decorators.http import require_http_methods
 from django.template import RequestContext, loader
 
-def load_static(request,path='',extra_context={}):
-    return render_to_response('mediacrasy/%s' % path,extra_context=extra_context,
+def load_static(request,path=''):
+    return render_to_response('mediacracy/%s' % path,{'session': request.session,},
             context_instance=RequestContext(request))

@@ -8,6 +8,6 @@ DEFAULT_SETTINGS = {
 }
 
 USER_SETTINGS = DEFAULT_SETTINGS.copy()
-USER_SETTINGS.update(getattr(settings, 'mediacracy_SETTINGS'))
+USER_SETTINGS.update(getattr(settings, 'MEDIACRACY_SETTINGS', {}))
 
 globals().update(USER_SETTINGS)
