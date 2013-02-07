@@ -6,11 +6,11 @@
         });
 
         mySettings.markupSet.push({
-            name: 'Media Window',
-            key: 'W',
+            name: 'Mediacracy',
+            key: 'M',
             className:"MediaWindow",
             replaceWith: function(markItUp) {
-                return MediaBrowserPopUp(markItUp);
+                return MediacracyPopUp(markItUp);
             },
         });
 
@@ -20,6 +20,15 @@
     });
 })(jQuery);
 
-MediaBrowserPopUp = function(markItUp) {
-    
+MediacracyPopUp = function(markItUp) {
+    var url = '{% url mediacracy_window %}';
+    var windowName = "Mediacracy";
+    var windowSize = "width=820,height=500";
+
+    window.open(url, windowName, windowSize);
+}
+
+mediacracy_window_callback = function(target, type, id) {
+    target.close();
+    $.markItUp({ replaceWith: '{% templatetag openblock %} show_media ' + type + ' ' + id + ' {% templatetag closeblock %}'});
 }

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from django.conf.urls.defaults import patterns, url
-from mediacracy.views import load_static
+from mediacracy.views import mediacracy_window
 
 urlpatterns = patterns('',
-    url(r'^(?P<path>.*)$', load_static, name='load_static'),
+    url(r'^window/$', mediacracy_window, name='mediacracy_window'),
 )

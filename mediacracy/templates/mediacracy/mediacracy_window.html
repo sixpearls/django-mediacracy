@@ -1,0 +1,61 @@
+{% extends "admin/base_site.html" %}
+{# {% extends "admin/media/base_site.html" %} #}
+{% load i18n admin_static admin_list %}
+{% load url from future %}
+{% load admin_urls %}
+
+
+{% block title %}Mediacracy Window | {% trans 'Django site admin' %}{% endblock %}
+
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "admin/css/changelists.css" %}" />
+  {% if cl.formset %}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
+  {% endif %}
+  {% if cl.formset or action_form %}
+    {% url 'admin:jsi18n' as jsi18nurl %}
+    <script type="text/javascript" src="{{ jsi18nurl|default:'../../jsi18n/' }}"></script>
+  {% endif %}
+  {{ media.css }}
+    <style>
+    {% if not actions_on_top and not actions_on_bottom %}
+      #changelist table thead th:first-child {width: inherit}
+    {% endif %}
+      div#content { margin: 0px; }
+      #tabs { width: 100%; border-left: none; border-right:none; border-top: none; padding: 0;}
+      #tabs ul { border-left: none; border-top: none; border-right: none;}
+      .hidden { display: none; }
+    </style>
+{% endblock %}
+
+{% block extrahead %}
+
+{{ block.super }}
+{{ media.js }}
+
+{% endblock %}
+
+{% block bodyclass %}change-list{% endblock %}
+
+{% if not is_popup %}
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+</div>
+{% endblock %}
+{% endif %}
+
+{% block coltype %}flex{% endblock %}
+
+{% block content %}
+    <div id="tabs">
+        <ul>
+          {% for model in model_list %}
+          <li><a href="{% url 'fb_browse' %}?pop=1&type={{model.url_name}}">{{ model.read_name }}</a></li>
+          {% endfor %} 
+        </ul>
+
+    </div>
+{% endblock %}

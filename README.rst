@@ -9,12 +9,6 @@ and ``django-markitup``. To use, add
     massmedia
     markitup
 
-to your ``INSTALLED_APPS``. Be sure to include the following settings:
-
-    TEXTIFY_SETTINGS = {
-        'WIDGET': 'mediacracy.widgets.TextifyMarkitupAdminWidget'
-    }
-
-
-add ``(r'^mediacracy/', include('mediacracy.urls')),`` to your urls.
+to your ``INSTALLED_APPS``. Be sure to keep ``mediacracy`` above ``massmedia``.
+And add ``(r'^mediacracy/', include('mediacracy.urls')),`` to your urls.
 
