@@ -1,8 +1,18 @@
 (function($) {
     $(document).ready(function($) {
 
+        var preview_delayed = false;
+
+        function update_preview_delay() {
+            preview_delayed = false;
+        }
+
         $("#id_content_raw").keyup(function() {
-            $('a[title="Preview"]').trigger('mousedown');
+            if (!preview_delayed) {
+                window.setTimeout(update_preview_delay,1000);
+                preview_delayed = true;
+                $('a[title="Preview"]').trigger('mousedown');
+            }
         });
 
         mySettings.markupSet.push({
@@ -15,7 +25,7 @@
         });
 
         $("#{{ id }}").markItUp(mySettings);
-        $('a[title="Preview"]').trigger('mouseup');
+        $('a[title="Preview"]').trigger('mousedown');
 
     });
 })(jQuery);

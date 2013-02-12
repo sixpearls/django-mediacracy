@@ -15,13 +15,13 @@ from django.utils.encoding import force_unicode
 @login_required
 def mediacracy_window(request):
     media = forms.Media(css = { 
-            "all": ("mediacracy/jquery/jquery-ui-1.8.24.custom.css",)
+            "all": ("mediacracy/jquery/jquery-ui.custom.css",)
         }, 
         js = (
             "mediacracy/js/jquery-1.8.2.min.js",
             "mediacracy/js/jquery-ui-1.10.0.custom.min.js",
             "mediacracy/js/mediacracy_window.js",
-            # "mediacracy/js/SPD_mediawindow_ajax.js",
+            "mediacracy/js/mediacracy_ajax_csrf.js",
         ))
 
     model_list = []

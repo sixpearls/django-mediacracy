@@ -20,8 +20,6 @@ class ShowMediaNode(template.Node):
         self.other_args = args[2:]
 
     def render(self, context):
-        output = self.instance.render_detail()
-        print output
-        return output
+        return self.instance.render_detail()
 
 register.tag('show_media', do_show_media)

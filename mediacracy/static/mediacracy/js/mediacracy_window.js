@@ -30,13 +30,41 @@
                 event.preventDefault();
             } );
             //over write links that go into change_list
-            $('#'+$(ui.panel).attr('id')+' a').delegate('','click', function(event) {
+            $('#'+$(ui.panel).attr('id')+' a').filter('[class!="addlink"]').delegate('','click', function(event) {
                 var split_href = this.href.split('?');
                 var new_href = $.mediacracy_window.id_map[$(ui.panel).attr('id')]+'&'+split_href[1];
                 $(ui.panel).load(new_href, 
                     function() {
                         $.mediacracy_window.loadFunc('',ui);
                     }
+                );
+                event.preventDefault();
+            });
+            //over write change_form 
+            $('#'+$(ui.panel).attr('id')+' a.addlink').delegate('','click', function(event) {
+                //stuff
+                var change_form_url = this.href;
+                var form_panel = ui.panel;
+                $(ui.panel).load(change_form_url,
+                  function(response, status, xhr) {
+                      var form = $(this).find("form");
+                      form.submit(function(event) {
+                        //$(form.panel).load(form.attr('action'),form.serializeArray());
+                        $.ajax({ // create an AJAX call...
+                            data: $(this).serialize(), // get the form data
+                            type: $(this).attr('method'), // GET or POST
+                            url: change_form_url, // the file to call
+                            success: function(response) { // on success..
+                                $(form_panel).load($.mediacracy_window.id_map[$(form_panel).attr('id')],
+                                    function() {
+                                        $.mediacracy_window.loadFunc('',ui);
+                                    }
+                                ); // update the DIV
+                            }
+                        });
+                        event.preventDefault();
+                      });
+                  }
                 );
                 event.preventDefault();
             });
