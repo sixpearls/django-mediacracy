@@ -16,9 +16,9 @@ def add_image_fields(sender, **kwargs):
     and adds sized image fields
     """
     if sender.__name__ == "Image" and sender._meta.app_label == 'massmedia':
-        large = models.ImageField(upload_to=".", blank=True, verbose_name=_('large image file')) #1024
-        medium = models.ImageField(upload_to=".", blank=True, verbose_name=_('medium image file')) #600
-        small = models.ImageField(upload_to=".", blank=True, verbose_name=_('small image file')) #300
+        large = models.ImageField(upload_to=".", blank=True, verbose_name=_('large image file'))
+        medium = models.ImageField(upload_to=".", blank=True, verbose_name=_('medium image file'))
+        small = models.ImageField(upload_to=".", blank=True, verbose_name=_('small image file'))
         
         large.contribute_to_class(sender, "large")
         medium.contribute_to_class(sender, "medium")
