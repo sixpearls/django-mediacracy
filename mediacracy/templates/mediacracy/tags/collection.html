@@ -1,0 +1,12 @@
+    <h1>{{media.title}}</h1>
+    <ul class="massmedia collection HERE">
+    {% for item in items %}
+        <li>
+            {% if use_hrefs %}
+            <a href="{{ item.url }}" title="{{ item.title }}">{{item.content}}</a>
+            {% else %}
+            {{item.content}}
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ul>

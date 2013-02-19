@@ -1,25 +1,45 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from django import template
+from django.template.loader import get_template#, select_template
 from django.db.models.loading import get_model
 from django.utils.safestring import mark_safe
 
 register = template.Library()
 
-def do_show_media(parser, token):
-    args = token.split_contents()[1:]
-
-    return ShowMediaNode(*args)
-
-class ShowMediaNode(template.Node):
-    def __init__(self, *args):
-        model_name = args[0]
-        pk = args[1]
+@register.simple_tag(takes_context=False)
+def show_media(model_name='image',id=1,instance=None,**kwargs):
+    if instance is None:
         model = get_model('massmedia',model_name)
-        self.instance = model.objects.get(pk=pk)
-        self.other_args = args[2:]
+        instance = model.objects.get(id=id)
+    t = get_template("mediacracy/tags/%s.html" % model_name)
+    c = template.Context({'media': instance})
+    if model_name=='image':
+        show_image(instance,kwargs)
+    if model_name=='collection':
+        show_collection(instance,kwargs)
+    c.update(kwargs)
+    return mark_safe(t.render(c))
 
-    def render(self, context):
-        return self.instance.render_detail()
+def show_image(instance,kwargs):
+    image_file_field = kwargs.pop('file_size','')
+    try:
+        kwargs.update({'media_src': getattr(instance,image_file_field).url })
+    except:
+        kwargs.update({'media_src': instance.media_url })
 
-register.tag('show_media', do_show_media)
+def show_collection(instance,kwargs):
+    use_hrefs = kwargs.pop('use_hrefs',False)
+    items = []
+    for item_rel in instance.collectionrelation_set.all():
+        item = item_rel.content_object
+        items.append({
+            'content':show_media(
+                model_name=item._meta.module_name,
+                instance=item,
+                **kwargs),
+            'url': item.get_absolute_url(),
+            'title': item.title,
+            })
+    kwargs.update({'items':items, 'use_hrefs':use_hrefs})
+

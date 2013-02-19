@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from django.db import models
-from django.template.loader import get_template#, select_template
 from django.conf import settings as site_settings
 from django.db.models.signals import class_prepared, pre_delete
 from django.utils.translation import ugettext, ugettext_lazy as _
@@ -27,21 +26,13 @@ def add_image_fields(sender, **kwargs):
 
 class_prepared.connect(add_image_fields)
 
-from massmedia.models import Collection, Image
+from massmedia.models import Image
 from PIL import Image as PILImage
 from cStringIO import StringIO
 from django.core.files.uploadedfile import SimpleUploadedFile
 import os
 from massmedia.settings import IMAGE_UPLOAD_TO
 from time import strftime
-
-def collection_render_detail(self):
-    tmpl = get_template('massmedia/mediatypes/collection_detail.html')
-    ctxt = template.Context({
-        'object': self,
-    })
-    return tmpl.render(ctxt)
-Collection.render_detail = collection_render_detail
 
 Image.image_fields = [
     Image._meta.get_field_by_name('file')[0],
@@ -51,15 +42,11 @@ Image.image_fields = [
     Image._meta.get_field_by_name('thumbnail')[0],]
 
 def resize(file_name, original, size):
-    #code taken from http://djangosnippets.org/snippets/2094/
-    #accessed on 7/22/2011
-    thisImage = original.copy()
-    thisImage.thumbnail( (size,size), PILImage.ANTIALIAS)
-    #save the thumbnail to memory
+    new_image = original.copy()
+    new_image.thumbnail( (size,size), PILImage.ANTIALIAS)
     temp_handle = StringIO()
-    thisImage.save(temp_handle, 'png')
+    new_image.save(temp_handle, 'png')
     temp_handle.seek(0)
-    #save the thumbnail field
     thumbname_tuple = os.path.split(file_name)[-1].split('.')
     thumbname = thumbname_tuple[0] + '_' + str(size) + '.png'
     suf = SimpleUploadedFile(thumbname, temp_handle.read(), content_type='image/png')

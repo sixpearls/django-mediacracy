@@ -40,5 +40,5 @@ MediacracyPopUp = function(markItUp) {
 
 mediacracy_window_callback = function(target, type, id) {
     target.close();
-    $.markItUp({ replaceWith: '{% templatetag openblock %} show_media ' + type + ' ' + id + ' {% templatetag closeblock %}'});
+    $.markItUp({ replaceWith: '{% templatetag openblock %} show_media "' + type + '" ' + id + ' {% templatetag closeblock %}'});
 }
