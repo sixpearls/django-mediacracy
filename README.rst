@@ -2,13 +2,17 @@ django-mediacracy
 =================
 
 Ruled by the mass media! This integrates ``django-textify``, ``django-massmedia``,
-and ``django-markitup``. To use, add
+and ``django-markitup``. To use, set
 
-    mediacracy
-    textify
-    massmedia
-    markitup
+    INSTALLED_APPS = {
+        ...,
+        'mediacracy',
+        'textify',
+        'massmedia',
+        'markitup',
+        ...,
+    }
 
-to your ``INSTALLED_APPS``. Be sure to keep ``mediacracy`` above ``massmedia``.
+in your ``SETTINGS``. Be sure to keep ``mediacracy`` above ``massmedia``.
 And add ``(r'^mediacracy/', include('mediacracy.urls')), url(r'^browse/', 'massmedia.views.browse', name="fb_browse"),`` to your urls. 
 
