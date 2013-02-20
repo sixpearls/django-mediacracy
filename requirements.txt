@@ -1,5 +1,5 @@
-https://github.com/sixpearls/django-textify/archive/master.zip
-# django-textify
+# https://github.com/sixpearls/django-textify/archive/master.zip
+django-textify
 django-markitup
-https://github.com/sixpearls/django-massmedia/archive/master.zip
-# django-massmedia
+# https://github.com/sixpearls/django-massmedia/archive/master.zip
+django-massmedia
