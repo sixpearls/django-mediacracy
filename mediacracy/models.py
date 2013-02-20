@@ -24,7 +24,7 @@ def add_image_fields(sender, **kwargs):
         medium.contribute_to_class(sender, "medium")
         small.contribute_to_class(sender, "small")
 
-class_prepared.connect(add_image_fields)
+class_prepared.connect(add_image_fields) 
 
 from massmedia.models import Image
 from PIL import Image as PILImage
@@ -33,6 +33,11 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 import os
 from massmedia.settings import IMAGE_UPLOAD_TO
 from time import strftime
+
+try:
+    Image._meta.get_field_by_name('large')[0]
+except:
+    add_image_fields(Image)
 
 Image.image_fields = [
     Image._meta.get_field_by_name('file')[0],
