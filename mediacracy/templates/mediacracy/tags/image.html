@@ -1,5 +1,7 @@
+{% spaceless %}
 <figure>
     <img src="{{ media_src }}" alt="{{ media.title }}" title="{{ media.title }}"{% if width %} width="{{ width }}"{% endif %}{% if height %} height="{{ height }}"{% endif %}/>
     {% if media.credit or media.author_name %}<cite>{{ media.credit }} {{ media.author_name }}</cite>{% endif %}
     {% if media.caption %}<figcaption>{{ media.caption }}</figcaption>{% endif %}
 </figure>
+{% endspaceless %}
