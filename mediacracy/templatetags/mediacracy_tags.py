@@ -24,7 +24,7 @@ def show_media(model_name='image',id=1,instance=None,**kwargs):
 
     {% show_media 'collection' <pk> [columns="< num_columns >"] [make_links="True"] [show_title="True"] %}
 
-    The columns argument adds a class "<num_columns>column" to the UL for styling.
+    The columns argument adds a class "<num_columns>column" to the UL for styling. Defaults to 3
     The make_links argument renders an <a href> tag around the LI.
     The show_title argument renders the title before the UL.
 
@@ -72,7 +72,7 @@ def show_image(instance,kwargs):
         kwargs.update({'media_src': instance.media_url })
 
 def show_collection(instance,kwargs):
-    column_class = kwargs.pop('columns',"1")+'column'
+    column_class = 'column'+kwargs.pop('columns',"3")
     items = []
     for item_rel in instance.collectionrelation_set.all():
         item = item_rel.content_object
