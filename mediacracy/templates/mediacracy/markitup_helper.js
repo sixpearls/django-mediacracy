@@ -50,22 +50,21 @@ MediacracySave = function(markItUp) {
     }
 
     $.ajax({ // create an AJAX call...
-        data: the_form.serialize()+"&_continue=", // get the form data
+        data: the_form.serialize()+"&_continue=", // get the form data, send as "save and continue"
         type: the_form.attr('method'), // GET or POST
         url: the_form.attr('action'), // the file to call
-        success: function(response) { // on success..
+        success: function(response) { // on 400 response..
             var success_message = $(response).find('ul.messagelist');
             if (success_message.length > 0) { //success message. Perhaps this should be made more explicit?
                 $('ul.messagelist').remove();
-                success_message.insertBefore($('#content'));
-                success_message.toggle(1000, function() {
+                success_message.insertBefore($('#content')).delay(1000).toggle(function() {
                     success_message.remove();
                 });
-            } else { // did not get 
+            } else { // did not get success message
                 ForceSaveContinue();
             }
         },
-        error: function(response) {
+        error: function(response) { // on non 400 responses
             ForceSaveContinue();
         }
     });

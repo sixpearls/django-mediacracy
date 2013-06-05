@@ -2,6 +2,10 @@
     background-image:url(images/picture.png);
 }
 
+.markItUpButton.Save a {
+    background-image:url(images/save.png);
+}
+
 iframe.markItUpPreviewFrame { 
     width: 620px;
 }
