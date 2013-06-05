@@ -22,6 +22,13 @@
             replaceWith: function(markItUp) {
                 return MediacracyPopUp(markItUp);
             },
+        }, {
+            name: 'Save',
+            key: 'S',
+            className:"Save",
+            replaceWith: function(markItUp) {
+                return MediacracySave(markItUp);
+            },
         });
 
         $("#{{ id }}").markItUp(mySettings);
@@ -29,6 +36,46 @@
 
     });
 })(jQuery);
+
+ForceSaveContinue = function() {
+    $("input[name='_continue']").click();
+}
+
+MediacracySave = function(markItUp) {
+    var the_form = $("form");
+
+    //check if this a new object OR if there are errors already here. If so, force normal save. Otherwise, use ajax.
+    if ($(window.location.pathname.split('/')).get(-2) == 'add' || $('ul.errorlist').length>0) {
+        ForceSaveContinue();
+    }
+
+    $.ajax({ // create an AJAX call...
+        data: the_form.serialize()+"&_continue=", // get the form data
+        type: the_form.attr('method'), // GET or POST
+        url: the_form.attr('action'), // the file to call
+        success: function(response) { // on success..
+            var success_message = $(response).find('ul.messagelist');
+            if (success_message.length > 0) { //success message. Perhaps this should be made more explicit?
+                $('ul.messagelist').remove();
+                success_message.insertBefore($('#content'));
+                success_message.toggle(1000, function() {
+                    success_message.remove();
+                });
+            } else { // did not get 
+                ForceSaveContinue();
+            }
+        },
+        error: function(response) {
+            ForceSaveContinue();
+        }
+    });
+}
+
+/*
+<ul class="messagelist">
+  <li class="info">The Textify Page &quot;/medical/treatments/laser/ -- LASER&quot; was changed successfully. You may edit it again below.</li>
+</ul>
+*/
 
 MediacracyPopUp = function(markItUp) {
     var url = '{% url mediacracy_window %}';
@@ -40,5 +87,10 @@ MediacracyPopUp = function(markItUp) {
 
 mediacracy_window_callback = function(target, type, id) {
     target.close();
-    $.markItUp({ replaceWith: '{% templatetag openblock %} show_media "' + type + '" ' + id + ' {% templatetag closeblock %}'});
+    var result = '{% templatetag openblock %} show_media "' + type + '" ' + id;
+    if (type=='image') {
+        result = result + ' file_size="thumbnail|small|medium|large|file" fig_class="left|right"'
+    }
+    result = result + ' {% templatetag closeblock %}'
+    $.markItUp({ replaceWith: result });
 }

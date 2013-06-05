@@ -15,7 +15,7 @@ def show_media(model_name='image',id=1,instance=None,**kwargs):
     Renders massmedia media items using the template in mediacracy/tags/
     Lots of optional arguments can be passed
 
-    {% show_media 'image' <pk> [file_size="< image_field >"] %}
+    {% show_media 'image' <pk> [file_size="< image_field >"] [fig_class="< class_name >"] %}
 
     where < image_field > is one of "thumbnail"/"small"/"medium"/"large"/"file"
     to set which image is loaded.

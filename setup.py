@@ -1,7 +1,6 @@
 import os
 from setuptools import setup, find_packages
 
-
 def read_file(filename):
     """Read a file into a string"""
     path = os.path.abspath(os.path.dirname(__file__))
@@ -10,7 +9,6 @@ def read_file(filename):
         return open(filepath).read()
     except IOError:
         return ''
-
 
 def get_readme():
     """Return the README file contents. Supports text,rst, and markdown"""
@@ -25,7 +23,7 @@ DESC = " ".join(__import__('mediacracy').__doc__.splitlines()).strip()
 setup(
     name="django-mediacracy",
     version=__import__('mediacracy').get_version().replace(' ', '-'),
-    url='http://www.sixpearls.com/',
+    url='https://github.com/sixpearls/django-mediacracy',
     author='Ben Margolis',
     author_email='ben@sixpearls.com',
     description=DESC,

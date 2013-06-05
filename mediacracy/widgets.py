@@ -20,6 +20,7 @@ class TextifyMarkitupAdminWidget(AdminMarkItUpWidget):
     
     def _media(self):
         return super(TextifyMarkitupAdminWidget,self).media + forms.Media(
-            css={'all': ('mediacracy/markitup/markitup_helper.css',),}
+            css={'all': ('mediacracy/markitup/markitup_helper.css',),},
+            js=("mediacracy/js/mediacracy_ajax_csrf.js",)
             )
     media = property(_media)

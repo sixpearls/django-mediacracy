@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-mediacracy
+Mediacracy is a django app ruled by the mass media! It integrates
+``django-textify``, ``django-massmedia``, and ``django-markitup``.
 """
 __version_info__ = {
     'major': 0,
