@@ -17,14 +17,14 @@
             }
         });
 
-        mySettings.markupSet.push({
+        mySettings.markupSet.push({% if use_mm %}{
             name: 'Mediacracy',
             key: 'M',
             className:"MediaWindow",
             replaceWith: function(markItUp) {
                 return MediacracyPopUp(markItUp);
             },
-        }, {
+        },{% endif %} {
             name: 'Save',
             key: 'S',
             className:"Save",
