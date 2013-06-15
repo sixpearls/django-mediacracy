@@ -1,3 +1,5 @@
+{% load url from future %}
+
 (function($) {
     $(document).ready(function($) {
 
@@ -77,7 +79,7 @@ MediacracySave = function(markItUp) {
 */
 
 MediacracyPopUp = function(markItUp) {
-    var url = '{% url mediacracy_window %}';
+    var url = '{% url 'mediacracy_window' %}';
     var windowName = "Mediacracy";
     var windowSize = "width=820,height=500";
 
