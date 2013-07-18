@@ -53,7 +53,7 @@ def resize(file_name, original, size):
     new_image.save(temp_handle, 'png')
     temp_handle.seek(0)
     thumbname_tuple = os.path.split(file_name)[-1].split('.')
-    thumbname = thumbname_tuple[0] + '_' + str(size) + '.png'
+    thumbname = '.'.join(thumbname_tuple[:-1]) + '_' + str(size) + '.png'
     suf = SimpleUploadedFile(thumbname, temp_handle.read(), content_type='image/png')
     return suf
 
