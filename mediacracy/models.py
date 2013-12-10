@@ -4,6 +4,8 @@ from django.db import models
 from django.conf import settings as site_settings
 from django.db.models.signals import class_prepared, pre_delete
 from django.utils.translation import ugettext, ugettext_lazy as _
+import mimetypes
+import os
 
 from mediacracy import settings
 
@@ -27,7 +29,7 @@ def add_image_fields(sender, **kwargs):
 class_prepared.connect(add_image_fields) 
 
 from massmedia.models import Image
-from PIL import Image as PILImage
+from PIL import Image as PILImage, ImageFile as PILImageFile
 from cStringIO import StringIO
 from django.core.files.uploadedfile import SimpleUploadedFile
 import os
@@ -46,15 +48,28 @@ Image.image_fields = [
     Image._meta.get_field_by_name('small')[0],
     Image._meta.get_field_by_name('thumbnail')[0],]
 
-def resize(file_name, original, size):
-    new_image = original.copy()
-    new_image.thumbnail( (size,size), PILImage.ANTIALIAS)
+def resize(file_name, size):
+    new_image = PILImage.open(file_name)
+    new_image.thumbnail( size, PILImage.ANTIALIAS)
     temp_handle = StringIO()
-    new_image.save(temp_handle, 'png')
+
+    name,ext = os.path.splitext( os.path.basename(file_name) )
+
+    ct = mimetypes.types_map[ext]
+    fmt = PILImage.EXTENSION[ext]
+
+    try:
+        new_image.save(temp_handle, format=fmt, optimize=True)
+    except:
+        original_block = PILImageFile.MAXBLOCK
+        PILImageFile.MAXBLOCK = new_image.size[0] * new_image.size[1]
+        new_image.save(temp_handle, format=fmt, optimize=True)
+        PILImageFile.MAXBLOCK = original_block
+
+    del new_image
     temp_handle.seek(0)
-    thumbname_tuple = os.path.split(file_name)[-1].split('.')
-    thumbname = '.'.join(thumbname_tuple[:-1]) + '_' + str(size) + '.png'
-    suf = SimpleUploadedFile(thumbname, temp_handle.read(), content_type='image/png')
+    thumbname = name + '_' + '_'.join([str(x) for x in size]) + '.' + ext
+    suf = SimpleUploadedFile(thumbname, temp_handle.read(), content_type=ct)
     return suf
 
 def image_generate_thumbnails(self):
@@ -66,21 +81,22 @@ def image_generate_thumbnails(self):
         filename = os.path.basename(urlparse(self.external_url).path)
     elif self.file:
         image = PILImage.open(self.file.path)
-        filename = os.path.basename(self.file.name)
-    if image.mode not in ('L', 'RGB'):
-        image = image.convert('RGB')
+    if image.mode not in ('L', 'RGB', 'RGBA'):
+        image = image.convert('RGBA')
 
     try:
         this_path = os.path.split(self.file.name)[0]+'/'
     except:
         this_path = strftime(IMAGE_UPLOAD_TO)+'/'
+
     original_width, original_height = image.size
+    del image
     
     for (field_name,size) in settings.IMAGE_SIZES.items():
         image_field = getattr(self,field_name,None)
         if image_field is not None:
-            if (original_width > size or original_height > size): 
-                suf = resize(filename, image, size)
+            if (original_width > size[0] or original_height > size[1]): 
+                suf = resize(self.file.path, size)
                 preferredname = this_path+suf.name
                 if (image_field.storage.exists(preferredname)):
                     image_field.storage.delete(preferredname)
