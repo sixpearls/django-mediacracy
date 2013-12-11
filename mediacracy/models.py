@@ -68,7 +68,7 @@ def resize(file_name, size):
 
     del new_image
     temp_handle.seek(0)
-    thumbname = name + '_' + '_'.join([str(x) for x in size]) + '.' + ext
+    thumbname = name + '_' + '_'.join([str(x) for x in size]) + ext
     suf = SimpleUploadedFile(thumbname, temp_handle.read(), content_type=ct)
     return suf
 
