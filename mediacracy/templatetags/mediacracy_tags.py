@@ -46,6 +46,8 @@ def show_media(model_name='image',id=1,instance=None,**kwargs):
         model_name = "external_video"
     elif model_name=='collection':
         show_collection(instance,kwargs)
+    elif model_name=='document':
+        show_document(instance,kwargs)
 
     t = get_template("mediacracy/tags/%s.html" % model_name)
     
@@ -63,6 +65,9 @@ def show_external_video(instance,kwargs):
     elif parsed_url.hostname.count('vimeo'):
         video_id = parsed_url.path.split('/')[-1]
         kwargs.update({'video_url': 'http://player.vimeo.com/video/' + video_id + '?badge=0'})
+
+def show_document(instance,kwargs):
+    kwargs.update({'document_url': instance.file.url })
 
 def show_image(instance,kwargs):
     image_file_field = kwargs.pop('file_size','')
