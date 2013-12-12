@@ -68,6 +68,10 @@ def show_external_video(instance,kwargs):
 
 def show_document(instance,kwargs):
     kwargs.update({'document_url': instance.file.url })
+    if 'width' not in kwargs:
+        kwargs.update({'width': "80%"})
+    if 'height' not in kwargs:
+        kwargs.update({'height': "25em"})
 
 def show_image(instance,kwargs):
     image_file_field = kwargs.pop('file_size','')
