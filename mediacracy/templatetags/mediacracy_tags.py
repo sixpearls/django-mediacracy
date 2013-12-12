@@ -71,7 +71,7 @@ def show_document(instance,kwargs):
     if 'width' not in kwargs:
         kwargs.update({'width': "80%"})
     if 'height' not in kwargs:
-        kwargs.update({'height': "25em"})
+        kwargs.update({'height': "500"})
 
 def show_image(instance,kwargs):
     image_file_field = kwargs.pop('file_size','')
