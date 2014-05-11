@@ -53,7 +53,7 @@
     <div id="tabs">
         <ul>
           {% for model in model_list %}
-          <li><a href="{% url 'fb_browse' %}?pop=1&type={{model.url_name}}">{{ model.read_name }}</a></li>
+          <li><a href="{% url 'fb_browse' %}?{{popup_var}}=1&type={{model.url_name}}">{{ model.read_name }}</a></li>
           {% endfor %} 
         </ul>
 

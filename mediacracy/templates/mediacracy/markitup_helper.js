@@ -33,6 +33,9 @@
             },
         });
 
+        mySettings["previewParserPath"] = "{% url 'markitup_preview' %}";
+
+
         $("#{{ id }}").markItUp(mySettings);
         $('a[title="Preview"]').trigger('mousedown');
 

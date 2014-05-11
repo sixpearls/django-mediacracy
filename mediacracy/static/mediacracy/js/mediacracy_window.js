@@ -25,7 +25,8 @@
             items.removeAttr('onclick');
             items.delegate('','click', function(event) {
                 item_type = $.mediacracy_window.id_map[$(ui.panel).attr('id')].split('type=')[1];
-                item_id = $(this).attr('href').split('/')[0];
+                split_href = $(this).attr('href').split('/');
+                item_id = split_href[split_href.length-2];
                 opener.mediacracy_window_callback(window,item_type,item_id);
                 event.preventDefault();
             } );

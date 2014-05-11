@@ -11,6 +11,7 @@ from django.contrib import admin
 from django import forms
 
 from django.utils.encoding import force_unicode
+from django.contrib.admin.options import IS_POPUP_VAR
 
 @login_required
 def mediacracy_window(request):
@@ -32,5 +33,5 @@ def mediacracy_window(request):
                   'read_name': force_unicode(model._meta.verbose_name_plural)
                 })
     return render_to_response('mediacracy/mediacracy_window.html',
-            {'model_list': model_list, 'media':media, 'is_popup': True,},
+            {'model_list': model_list, 'media':media, 'is_popup': True, 'popup_var':IS_POPUP_VAR,},
             context_instance=RequestContext(request))
