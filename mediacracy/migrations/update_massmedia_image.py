@@ -19,7 +19,7 @@ class Migration(SchemaMigration):
     def backwards(self, orm):
         db.delete_column('massmedia_image', 'large')
         db.delete_column('massmedia_image', 'medium')
-        db.delete_column('massmedia_image', 'large')
+        db.delete_column('massmedia_image', 'small')
 
     models = {
         'auth.group': {
