@@ -21,6 +21,7 @@ def mediacracy_window(request):
         js = (
             "mediacracy/js/jquery-1.8.2.min.js",
             "mediacracy/js/jquery-ui-1.10.0.custom.min.js",
+            "mediacracy/js/jquery.form.min.js",
             "mediacracy/js/mediacracy_window.js",
             "mediacracy/js/mediacracy_ajax_csrf.js",
         ))

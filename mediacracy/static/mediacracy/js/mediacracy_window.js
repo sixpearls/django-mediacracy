@@ -50,10 +50,7 @@
                   function(response, status, xhr) {
                       var form = $(this).find("form");
                       form.submit(function(event) {
-                        //$(form.panel).load(form.attr('action'),form.serializeArray());
-                        $.ajax({ // create an AJAX call...
-                            data: $(this).serialize(), // get the form data
-                            type: $(this).attr('method'), // GET or POST
+                        $(this).ajaxSubmit({ // create an AJAX call...
                             url: change_form_url, // the file to call
                             success: function(response) { // on success..
                                 $(form_panel).load($.mediacracy_window.id_map[$(form_panel).attr('id')],
