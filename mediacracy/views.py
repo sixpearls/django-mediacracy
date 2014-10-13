@@ -11,7 +11,7 @@ from django.contrib import admin
 from django import forms
 
 from django.utils.encoding import force_unicode
-from django.contrib.admin.options import IS_POPUP_VAR
+from django.contrib.admin.views.main import IS_POPUP_VAR
 
 @login_required
 def mediacracy_window(request):
